@@ -1,21 +1,19 @@
-/*
- * Copyright (c) 2018 Intel Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright (c) 2018 Intel Corporation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-#ifndef OBJECT_ANALYTICS_NODE_SEGMENTER_ALGORITHM_CONFIG_H
-#define OBJECT_ANALYTICS_NODE_SEGMENTER_ALGORITHM_CONFIG_H
+#ifndef OBJECT_ANALYTICS_NODE__SEGMENTER__ALGORITHM_CONFIG_HPP_
+#define OBJECT_ANALYTICS_NODE__SEGMENTER__ALGORITHM_CONFIG_HPP_
 
 #include <map>
 #include <string>
@@ -37,9 +35,8 @@ public:
    *
    * @param[in] name Configuration file name
    */
-  explicit AlgorithmConfig(const std::string& file_name)
+  AlgorithmConfig()
   {
-    file_name;
     // TODO(Peter Han): Don't want to recreate the wheel.
     // To leverage 3rd part library, should get approved.
     // Not implement this is totally okay, becasue default value is always provided.
@@ -53,8 +50,8 @@ public:
    *
    * @return value of given key, def_val if failed to query the key
    */
-  template <typename T>
-  inline T get(const std::string& key, const T default_val)
+  template<typename T>
+  inline T get(const std::string & key, const T default_val)
   {
     assert(false);
     return default_val;
@@ -64,45 +61,37 @@ private:
   std::map<std::string, std::string> map_;
 };
 
-template <>
-inline std::string AlgorithmConfig::get<std::string>(const std::string& key, const std::string default_val)
+template<>
+inline std::string AlgorithmConfig::get<std::string>(
+  const std::string & key, const std::string default_val)
 {
-  try
-  {
+  try {
     return map_[key];
-  }
-  catch (...)
-  {
+  } catch (...) {
   }
   return default_val;
 }
 
-template <>
-inline size_t AlgorithmConfig::get<size_t>(const std::string& key, const size_t default_val)
+template<>
+inline size_t AlgorithmConfig::get<size_t>(const std::string & key, const size_t default_val)
 {
-  try
-  {
+  try {
     return static_cast<size_t>(std::stoi(map_[key]));
-  }
-  catch (...)
-  {
+  } catch (...) {
   }
   return default_val;
 }
 
-template <>
-inline float AlgorithmConfig::get<float>(const std::string& key, const float default_val)
+template<>
+inline float AlgorithmConfig::get<float>(const std::string & key, const float default_val)
 {
-  try
-  {
+  try {
     return static_cast<float>(std::stof(map_[key]));
-  }
-  catch (...)
-  {
+  } catch (...) {
   }
   return default_val;
 }
 
 }  // namespace segmenter
 }  // namespace object_analytics_node
-#endif  // OBJECT_ANALYTICS_NODE_SEGMENTER_ALGORITHM_CONFIG_H
+#endif  // OBJECT_ANALYTICS_NODE__SEGMENTER__ALGORITHM_CONFIG_HPP_

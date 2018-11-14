@@ -29,15 +29,17 @@ find_package(ament_cmake REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(object_msgs REQUIRED)
 find_package(builtin_interfaces REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/MovingObject.msg"
+  "msg/MovingObjectsInFrame.msg"
   "msg/ObjectInBox3D.msg"
   "msg/ObjectsInBoxes3D.msg"
-  "msg/TrackedObject.msg"
-  "msg/TrackedObjects.msg"
-  DEPENDENCIES std_msgs sensor_msgs geometry_msgs
+  DEPENDENCIES std_msgs sensor_msgs geometry_msgs object_msgs
 )
 
 install(

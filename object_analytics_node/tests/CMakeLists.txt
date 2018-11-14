@@ -15,8 +15,6 @@ set(UNITEST_LIBRARIES
   ${PCL_IO_LIBRARIES}
   segmenter_component
   splitter_component
-  merger_component
-  tracking_component
 )
 
 get_filename_component(RESOURCE_DIR "resource" ABSOLUTE)
@@ -39,12 +37,6 @@ ament_add_gtest(unittest_objectutils unittest_objectutils.cpp unittest_util.cpp
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 if(TARGET unittest_objectutils)
   target_link_libraries(unittest_objectutils ${UNITEST_LIBRARIES})
-endif()
-
-ament_add_gtest(unittest_merger unittest_merger.cpp unittest_util.cpp
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
-if(TARGET unittest_merger)
-  target_link_libraries(unittest_merger ${UNITEST_LIBRARIES})
 endif()
 
 ament_add_gtest(unittest_segmenter unittest_segmenter.cpp unittest_util.cpp

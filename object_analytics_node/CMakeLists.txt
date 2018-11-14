@@ -81,23 +81,25 @@ ament_target_dependencies(object_analytics_common
   "object_analytics_msgs"
   "pcl_conversions"
   "cv_bridge"
+  "class_loader"
 )
 target_link_libraries(object_analytics_common
   ${PCL_COMMON_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
 
-add_executable(composition src/composition.cpp)
-target_link_libraries(composition ament_index_cpp::ament_index_cpp)
+add_executable(object_analytics_node src/composition.cpp)
+target_link_libraries(object_analytics_node ament_index_cpp::ament_index_cpp)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  target_link_libraries(composition "stdc++fs")
+  target_link_libraries(object_analytics_node "stdc++fs")
 endif()
-ament_target_dependencies(composition
+ament_target_dependencies(object_analytics_node
   "class_loader"
   "rclcpp"
   "rcutils"
 )
-target_link_libraries(composition object_analytics_common)
+target_link_libraries(object_analytics_node object_analytics_common)
+
 
 add_library(splitter_component SHARED
   src/splitter/splitter_node.cpp
@@ -117,47 +119,31 @@ rclcpp_register_node_plugins(splitter_component "object_analytics_node::splitter
 set(node_plugins
   "${node_plugins}object_analytics_node::splitter::SplitterNode;$<TARGET_FILE:splitter_component>\n")
 
-add_library(merger_component SHARED
-  src/merger/merger_node.cpp
-  src/merger/merger.cpp
-)
-target_compile_definitions(merger_component
+add_library(moving_component SHARED
+  src/movement/moving_object_node.cpp
+  src/movement/moving_objects.cpp
+  src/movement/object_frame.cpp
+  src/movement/param.cpp)
+
+target_compile_definitions(moving_component
   PRIVATE "OBJECT_ANALYTICS_NODE_BUILDING_DLL"
 )
-ament_target_dependencies(merger_component
-  "class_loader"
+ament_target_dependencies(moving_component
   "rclcpp"
+  "object_analytics_msgs"
+  "rmw_implementation"
+  "std_msgs"
   "sensor_msgs"
+  "geometry_msgs"
   "object_msgs"
   "message_filters"
-  "object_analytics_msgs"
-)
-target_link_libraries(merger_component object_analytics_common)
-rclcpp_register_node_plugins(merger_component "object_analytics_node::merger::MergerNode")
-set(node_plugins
-  "${node_plugins}object_analytics_node::merger::MergerNode;$<TARGET_FILE:merger_component>\n")
-
-add_library(tracking_component SHARED
-  src/tracker/tracking_node.cpp
-  src/tracker/tracking.cpp
-  src/tracker/tracking_manager.cpp
-)
-target_compile_definitions(tracking_component
-  PRIVATE "OBJECT_ANALYTICS_NODE_BUILDING_DLL"
-)
-ament_target_dependencies(tracking_component
+  "ament_index_cpp"
   "class_loader"
-  "rclcpp"
-  "sensor_msgs"
-  "cv_bridge"
-  "OpenCV"
-  "object_msgs"
-  "object_analytics_msgs"
 )
-target_link_libraries(tracking_component object_analytics_common)
-rclcpp_register_node_plugins(tracking_component "object_analytics_node::tracker::TrackingNode")
+target_link_libraries(moving_component object_analytics_common)
+rclcpp_register_node_plugins(moving_component "object_analytics_node::movement::MovementNode")
 set(node_plugins
-  "${node_plugins}object_analytics_node::tracker::TrackingNode;$<TARGET_FILE:tracking_component>\n")
+  "${node_plugins}object_analytics_node::movement::MovementNode;$<TARGET_FILE:moving_component>\n")
 
 add_library(segmenter_component SHARED
   src/segmenter/segmenter_node.cpp
@@ -174,6 +160,7 @@ ament_target_dependencies(segmenter_component
   "sensor_msgs"
   "object_msgs"
   "object_analytics_msgs"
+  "message_filters"
 )
 target_link_libraries(segmenter_component object_analytics_common ${PCL_SEGMENTATION_LIBRARIES})
 rclcpp_register_node_plugins(segmenter_component "object_analytics_node::segmenter::SegmenterNode")
@@ -189,15 +176,14 @@ install(TARGETS
 )
 
 install(TARGETS
-  composition
+  object_analytics_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
 install(TARGETS
   object_analytics_common
   segmenter_component
-  merger_component
-  tracking_component
+  moving_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib
@@ -248,7 +234,14 @@ if(UNIX OR APPLE)
 endif()
 
 if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+
   add_subdirectory(tests)
 endif()
+
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 ament_package()

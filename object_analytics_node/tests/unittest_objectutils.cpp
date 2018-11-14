@@ -1,28 +1,27 @@
-/*
- * Copyright (c) 2018 Intel Corporation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-#define PCL_NO_PRECOMPILE
-#include <string>
-#include <utility>
-#include <vector>
+// Copyright (c) 2018 Intel Corporation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
+#define PCL_NO_PRECOMPILE
 #include <gtest/gtest.h>
 #include <pcl/io/pcd_io.h>
 
-#include "object_analytics_node/model/object_utils.hpp"
+#include <string>
+#include <utility>
+#include <vector>
+#include <memory>
 
+#include "object_analytics_node/model/object_utils.hpp"
 #include "unittest_util.hpp"
 
 TEST(UnitTestObjectUtils, fill2DObjects_Empty)
@@ -60,11 +59,11 @@ TEST(UnitTestObjectUtils, fill3DObjects_Empty)
 TEST(UnitTestObjectUtils, fill3DObjects_NormalCase)
 {
   ObjectsInBoxes3D::SharedPtr objects = std::make_shared<ObjectsInBoxes3D>();
-  ObjectInBox3D first = getObjectInBox3D(1, 1, 100, 100, 1, 2, 3, 4, 5, 6);
+  ObjectInBox3D first = getObjectInBox3D(1, 1, 100, 100, 1, 2, 3, 4, 5, 6, "person", 0.99);
   objects->objects_in_boxes.push_back(first);
-  ObjectInBox3D second = getObjectInBox3D(100, 100, 200, 200, 7, 8, 9, 10, 11, 12);
+  ObjectInBox3D second = getObjectInBox3D(100, 100, 200, 200, 7, 8, 9, 10, 11, 12, "person", 0.80);
   objects->objects_in_boxes.push_back(second);
-  ObjectInBox3D third = getObjectInBox3D(320, 480, 1, 1, 13, 14, 15, 16, 17, 18);
+  ObjectInBox3D third = getObjectInBox3D(320, 480, 1, 1, 13, 14, 15, 16, 17, 18, "person", 0.90);
   objects->objects_in_boxes.push_back(third);
   std::vector<Object3D> objects3d;
   ObjectUtils::fill3DObjects(objects, objects3d);
@@ -80,16 +79,18 @@ TEST(UnitTestObjectUtils, findMaxIntersectionRelationships_NormalCase)
   std::vector<Object2D> objects2d;
   std::vector<std::pair<Object2D, Object3D>> relations;
   // build 3d objects
-  Object3D first3d = Object3D(getObjectInBox3D(1, 1, 100, 100, 1, 2, 3, 4, 5, 6));
-  Object3D second3d = Object3D(getObjectInBox3D(1, 102, 100, 100, 1, 2, 3, 4, 5, 6));
-  Object3D third3d = Object3D(getObjectInBox3D(50, 50, 100, 100, 1, 2, 3, 4, 5, 6));
-  Object3D forth3d = Object3D(getObjectInBox3D(200, 0, 30, 40, 1, 2, 3, 4, 5, 6));
-  Object3D fifth3d = Object3D(getObjectInBox3D(49, 49, 60, 60, 1, 2, 3, 4, 5, 6));
+  Object3D first3d =
+    Object3D(getObjectInBox3D(1, 1, 100, 100, 1, 2, 3, 4, 5, 6, "person", 0.90));
+  Object3D second3d =
+    Object3D(getObjectInBox3D(1, 102, 100, 100, 1, 2, 3, 4, 5, 6, "person", 0.80));
+  Object3D third3d =
+    Object3D(getObjectInBox3D(50, 50, 100, 100, 1, 2, 3, 4, 5, 6, "person", 0.70));
+  Object3D forth3d =
+    Object3D(getObjectInBox3D(200, 0, 30, 40, 1, 2, 3, 4, 5, 6, "person", 0.60));
   objects3d.push_back(first3d);
   objects3d.push_back(second3d);
   objects3d.push_back(third3d);
   objects3d.push_back(forth3d);
-  objects3d.push_back(fifth3d);
   // build 2d objects
   Object2D first2d = Object2D(getObjectInBox(0, 0, 100, 100, "person", 0.8f));
   Object2D second2d = Object2D(getObjectInBox(0, 101, 100, 100, "dog", 0.9f));
@@ -100,7 +101,7 @@ TEST(UnitTestObjectUtils, findMaxIntersectionRelationships_NormalCase)
   objects2d.push_back(third2d);
   objects2d.push_back(forth2d);
   ObjectUtils::findMaxIntersectionRelationships(objects2d, objects3d, relations);
-  EXPECT_EQ(relations.size(), static_cast<size_t>(3));
+  EXPECT_EQ(relations.size(), static_cast<size_t>(4));
   std::pair<Object2D, Object3D> first = relations[0];
   EXPECT_TRUE(first.first == first2d);
   EXPECT_TRUE(first.second == first3d);
@@ -109,7 +110,7 @@ TEST(UnitTestObjectUtils, findMaxIntersectionRelationships_NormalCase)
   EXPECT_TRUE(second.second == second3d);
   std::pair<Object2D, Object3D> third = relations[2];
   EXPECT_TRUE(third.first == third2d);
-  EXPECT_TRUE(third.second == fifth3d);
+  EXPECT_TRUE(third.second == third3d);
 }
 
 TEST(UnitTestObjectUtils, getMinMaxPointsInXYZ)
@@ -120,8 +121,7 @@ TEST(UnitTestObjectUtils, getMinMaxPointsInXYZ)
   pcl::PointCloud<PointXYZPixel>::Ptr cloudPixel(new pcl::PointCloud<PointXYZPixel>);
 
   std::vector<int> indices;
-  for (auto i = 0; i < static_cast<int>(cloud->size()); i++)
-  {
+  for (auto i = 0; i < static_cast<int>(cloud->size()); i++) {
     indices.push_back(i);
   }
   ObjectUtils::copyPointCloud(cloud, indices, cloudPixel);
@@ -148,18 +148,15 @@ TEST(UnitTestObjectUtils, copyPointCloud_All)
   readPointCloudFromPCD(std::string(RESOURCE_DIR) + "/copy.pcd", cloud);
 
   std::vector<int> indices;
-  for (auto i = 0; i < static_cast<int>(cloud->size()); i++)
-  {
+  for (auto i = 0; i < static_cast<int>(cloud->size()); i++) {
     indices.push_back(i);
   }
 
   pcl::PointCloud<PointXYZPixel>::Ptr seg(new pcl::PointCloud<PointXYZPixel>);
   ObjectUtils::copyPointCloud(cloud, indices, seg);
 
-  for (uint32_t y = 0; y < 5; ++y)
-  {
-    for (uint32_t x = 0; x < 5; ++x)
-    {
+  for (uint32_t y = 0; y < 5; ++y) {
+    for (uint32_t x = 0; x < 5; ++x) {
       PointXYZPixel p = seg->points[y * 5 + x];
       EXPECT_TRUE(p.pixel_x == x);
       EXPECT_TRUE(p.pixel_y == y);
@@ -183,14 +180,13 @@ TEST(UnitTestObjectUtils, copyPointCloud_Diagonal)
 {
   PointCloudT::Ptr cloud(new PointCloudT);
   readPointCloudFromPCD(std::string(RESOURCE_DIR) + "/copy.pcd", cloud);
-  int i[] = { 0, 6, 12, 18, 24 };
+  int i[] = {0, 6, 12, 18, 24};
   std::vector<int> indices(i, i + sizeof(i) / sizeof(uint32_t));
 
   pcl::PointCloud<PointXYZPixel>::Ptr seg(new pcl::PointCloud<PointXYZPixel>);
   ObjectUtils::copyPointCloud(cloud, indices, seg);
 
-  for (uint32_t i = 0; i < 5; ++i)
-  {
+  for (uint32_t i = 0; i < 5; ++i) {
     EXPECT_EQ(seg->points[i].pixel_x, i);
     EXPECT_EQ(seg->points[i].pixel_y, i);
   }
@@ -256,8 +252,7 @@ TEST(UnitTestObjectUtils, getProjectedROI_ShapeIsFullOfImage)
   PointCloudT::Ptr cloud(new PointCloudT);
   readPointCloudFromPCD(std::string(RESOURCE_DIR) + "/project.pcd", cloud);
   std::vector<int> indices;
-  for (int i = 0; i < 100; i++)
-  {
+  for (int i = 0; i < 100; i++) {
     indices.push_back(i);
   }
 
@@ -275,7 +270,7 @@ TEST(UnitTestObjectUtils, getProjectedROI_ShapeIsOneRow)
 {
   PointCloudT::Ptr cloud(new PointCloudT);
   readPointCloudFromPCD(std::string(RESOURCE_DIR) + "/project.pcd", cloud);
-  int i[] = { 23, 24, 25, 26, 27, 28 };
+  int i[] = {23, 24, 25, 26, 27, 28};
   std::vector<int> indices(i, i + sizeof(i) / sizeof(uint32_t));
 
   pcl::PointCloud<PointXYZPixel>::Ptr seg(new pcl::PointCloud<PointXYZPixel>);
@@ -292,7 +287,7 @@ TEST(UnitTestObjectUtils, getProjectedROI_ShapeIsOneColumn)
 {
   PointCloudT::Ptr cloud(new PointCloudT);
   readPointCloudFromPCD(std::string(RESOURCE_DIR) + "/project.pcd", cloud);
-  int i[] = { 23, 33, 43, 53, 63, 73 };
+  int i[] = {23, 33, 43, 53, 63, 73};
   std::vector<int> indices(i, i + sizeof(i) / sizeof(uint32_t));
 
   pcl::PointCloud<PointXYZPixel>::Ptr seg(new pcl::PointCloud<PointXYZPixel>);
@@ -325,10 +320,11 @@ TEST(UnitTestObjectUtils, getMatch_SameOverlapBetterDiviation)
   cv::Rect2d origin(0, 0, 100, 100);
   cv::Rect2d bigDiviation(0, 0, 50, 50);
   cv::Rect2d smallDiviation(20, 20, 70, 70);
-  EXPECT_GT(ObjectUtils::getMatch(origin, smallDiviation), ObjectUtils::getMatch(origin, bigDiviation));
+  EXPECT_GT(
+    ObjectUtils::getMatch(origin, smallDiviation), ObjectUtils::getMatch(origin, bigDiviation));
 }
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

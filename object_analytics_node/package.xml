@@ -17,13 +17,12 @@ limitations under the License.
 -->
 <package format="3">
   <name>object_analytics_node</name>
-  <version>0.3.0</version>
+  <version>0.5.0</version>
   <description>The object_analytics_node package</description>
-  <maintainer email="peter.han@intel.com">Peter Han</maintainer>
-  <author email="peter.han@intel.com">Peter Han</author>
+  <maintainer email="chris.ye@intel.com">Chris Ye</maintainer>
   <license>Apache 2.0</license>
 
-  <url type="repository">https://github.com/intel/ros2_object_analytics</url>
+  <author email="peter.han@intel.com">Peter Han</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
@@ -34,6 +33,9 @@ limitations under the License.
   <build_depend>rclcpp</build_depend>
   <build_depend>pcl_conversions</build_depend>
   <build_depend>libpcl-all-dev</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>class_loader</build_depend>
+  <build_depend>message_filters</build_depend>
 
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
@@ -44,10 +46,12 @@ limitations under the License.
   <exec_depend>pcl_conversions</exec_depend>
   <exec_depend>libpcl-all-dev</exec_depend>
   <exec_depend>libpcl-all</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>class_loader</exec_depend>
+  <exec_depend>message_filters</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
-  <test_depend>rclcpp</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
