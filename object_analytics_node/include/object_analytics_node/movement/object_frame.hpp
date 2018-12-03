@@ -118,8 +118,6 @@ public:
 
   bool isSocialObject(DetectionObjectInBox & ob);
 
-private:
-
 //  @brief find the localization object from the tracking vector which has the
 // same ROI.
 //  @param[in] roi Region of interest within an image, which is used to
