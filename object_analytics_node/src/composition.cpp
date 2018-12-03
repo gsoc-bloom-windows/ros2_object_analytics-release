@@ -66,6 +66,10 @@ int main(int argc, char * argv[])
     clazzes.push_back(
       std::make_pair("object_analytics_node", "object_analytics_node::movement::MovementNode"));
   }
+  if (rcutils_cli_option_exist(argv, argv + argc, "--tracking")) {
+    clazzes.push_back(
+      std::make_pair("object_analytics_node", "object_analytics_node::tracker::TrackingNode"));
+  }
 
   rclcpp::executors::SingleThreadedExecutor exec;
   exec.add_node(node);
