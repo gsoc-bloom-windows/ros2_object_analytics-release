@@ -12,25 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <iostream>
-#include "object_analytics_node/model/object2d.hpp"
+#include <string>
+#include <vector>
 
-namespace object_analytics_node
+#include "object_analytics_node/dataset/track_dataset.hpp"
+
+namespace datasets
 {
-namespace model
+
+cv::Ptr<trDataset> trDataset::create(dsType type)
 {
-Object2D::Object2D(const object_msgs::msg::ObjectInBox & oib)
-: roi_(oib.roi), object_(oib.object)
-{
+  cv::Ptr<trDataset> nullp;
+  switch (type) {
+    case dsVideo:
+      return cv::Ptr<vidDataset>(new vidDataset);
+    case dsImage:
+      return cv::Ptr<imgDataset>(new imgDataset);
+    default:
+      return nullp;
+  }
 }
 
-std::ostream & operator<<(std::ostream & os, const Object2D & obj)
-{
-  os << "Object2D[" << obj.object_.object_name;
-  os << ", @(" << obj.roi_.x_offset << ", " << obj.roi_.y_offset << ")";
-  os << ", width=" << obj.roi_.width << ", height=" << obj.roi_.height << "]";
-  return os;
-}
+int trDataset::getFrameIdx() {return frameIdx;}
 
-}  // namespace model
-}  // namespace object_analytics_node
+}  // namespace datasets
