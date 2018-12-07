@@ -17,7 +17,7 @@ limitations under the License.
 -->
 <package format="3">
   <name>object_analytics_node</name>
-  <version>0.5.1</version>
+  <version>0.5.2</version>
   <description>The object_analytics_node package</description>
   <maintainer email="chris.ye@intel.com">Chris Ye</maintainer>
   <license>Apache 2.0</license>
@@ -55,6 +55,7 @@ limitations under the License.
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
