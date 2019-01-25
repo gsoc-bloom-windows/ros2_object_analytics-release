@@ -1,44 +1,43 @@
-changelog for ros2_object_analytics
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Changelog for package object_analytics_msgs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 0.5.3 (2019-01-24)
 ------------------
-* fix rviz process die when launch object_analytics
-* remove obj_id for 3d localization to fixing zero id
-* fix unittest issues
 
-0.5.2 (2018-12-7)
+0.5.2 (2018-12-07)
 ------------------
-* change master branch to devel branch for develop
-* change crystal branch to master branch for ROS2 bloom release
+* Merge remote-tracking branch 'origin/master' into crystal
+* Contributors: Chris Ye
 
-0.5.1 (2018-12-6)
+0.5.1 (2018-12-06)
 ------------------
-* Enable bloom package build for ROS2 crystal release
 
 0.5.0 (2018-11-14)
 ------------------
-* Enable dataset support in tracking module.
-* Add one regression tool to track tracking precision and perf
-* Enabled more tracking features such as KCF/TLD/BOOSTING/MEDIAN_FLOW
-* remove merger-node to simplify the code
-* remove message_filter used in rviz for better display
-* Upload demo screensot and video
-* Enable moving object feature
-* delete object_analytics_launch package and create launch file in object_analytics_node
+* Merge pull request `#49 <https://github.com/yechun1/ros2_object_analytics/issues/49>`_ from ahuizxc/merged_mo
+  Enable moving object feature
+* changed code as recommended
+* merged with moving object project
+* Contributors: Chris Ye, ahuizxc
 
-0.4.0 (2018-09-7)
+0.4.0 (2018-09-07)
 ------------------
-* fully support ros2 implenetation without ros1_bridge connunication
-* support object_analytics_rviz on ros2
-* splite pointcloud2 to xyz and rgb
-* restruct tracking and localization object message type
-* optimize localization segmentation implementation
-* seperate ncs launch interface
-* enable cppcheck and unittest
-* support ubuntu 18.04
+* update maintainer
+  Signed-off-by: Chris Ye <chris.ye@intel.com>
+* Merge pull request `#23 <https://github.com/intel/ros2_object_analytics/issues/23>`_ from intel/perf
+  Merge detected object in localization and tracking
+* Merge detected object in localization and tracking
+  Merged detected object_name and probability in localization and tracking object,
+  so that users could only subscribe localization or tracking, needn't sub detected object
+  and needn't do message fileter again.
+  Signed-off-by: Chris Ye <chris.ye@intel.com>
+* add CHANGELOG.rst
+  Signed-off-by: Chris Ye <chris.ye@intel.com>
+* Contributors: Chris Ye
 
 0.3.0 (2018-05-14)
 ------------------
-* Support tracking object in 2D dimensional space.
-* Support locating object in 3D dimisional space.
+* ros2 object analytics package - V0.3.0 Release
+  Signed-off-by: Peter Han <peter.han@intel.com>
+* Contributors: Peter Han
