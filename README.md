@@ -1,3 +1,29 @@
+## ros2_object_analytics (dashing) - 0.5.4-1
+
+The packages in the `ros2_object_analytics` repository were released into the `dashing` distro by running `/usr/local/bin/bloom-release --rosdistro dashing --track dashing ros2_object_analytics` on `Thu, 23 May 2019 17:28:07 -0000`
+
+These packages were released:
+- `object_analytics_msgs`
+- `object_analytics_node`
+- `object_analytics_rviz`
+
+Version of package(s) in repository `ros2_object_analytics`:
+
+- upstream repository: https://github.com/intel/ros2_object_analytics.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `0.5.4-1`
+
+Versions of tools used:
+
+- bloom version: `0.8.0`
+- catkin_pkg version: `0.4.12`
+- rosdep version: `0.15.2`
+- rosdistro version: `0.7.4`
+- vcstools version: `0.1.40`
+
+
 ## ros2_object_analytics (crystal) - 0.5.3-0
 
 The packages in the `ros2_object_analytics` repository were released into the `crystal` distro by running `/usr/local/bin/bloom-release --rosdistro crystal --track crystal ros2_object_analytics` on `Fri, 25 Jan 2019 05:52:52 -0000`
