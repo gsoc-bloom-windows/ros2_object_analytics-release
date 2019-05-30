@@ -1,126 +1,48 @@
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Changelog for package object_analytics_rviz
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+changelog for ros2_object_analytics
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+0.5.4 (2019-05-17)
+------------------
+* Update with ROS2 dashing core to use rclcpp_components
 
 0.5.3 (2019-01-24)
 ------------------
-* Merge remote-tracking branch 'upstream/devel'
-* Merge pull request #66 from intel/unit_test
-  fix unittest segment issue
-* fix unittest_segmenter failure
-* Merge pull request #65 from intel/obj_id_zero
-  Obj id zero
-* remove obj_id for 3d localization
-  currently obj_id is already zero, because the 2d tracking is not accurate and 3d localication did not use this value. but zero display will confuse user in visualization. so just remove it. Once 2d tracking is good quality and 3d localization will based on 2d tracking output, and then re-add this obj_id again.
-* Merge pull request #62 from intel/rviz_corner_issue
-  fix rviz process die when launch oa
 * fix rviz process die when launch object_analytics
-  the minimun corner of the box must be less than or equal to maximum corner. when moving object velocity is (0,0,0), it and will assert rviz ogre rander.
-  fix issue: https://github.com/intel/ros2_object_analytics/issues/61
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Contributors: Chris Ye
+* remove obj_id for 3d localization to fixing zero id
+* fix unittest issues
 
-0.5.2 (2018-12-07)
+0.5.2 (2018-12-7)
 ------------------
-* Merge remote-tracking branch 'origin/master' into crystal
-* Contributors: Chris Ye
+* change master branch to devel branch for develop
+* change crystal branch to master branch for ROS2 bloom release
 
-0.5.1 (2018-12-06)
+0.5.1 (2018-12-6)
 ------------------
-* Merge pull request `#54 <https://github.com/intel/ros2_object_analytics/issues/54>`_ from nuclearsandwich/dependencies
-  Reconcile dependencies between package.xml and CMakeLists.txt
-* fix error in CTest
-* Add ament_lint_auto dependency to package manifest.
-  This package is required when BUILD_TESTING is enabled but is not in the
-  package manifest and is causing failures on the ROS buildfarm.
-  I added ament_lint_common since that seems to be the practice when using
-  ament_lint_auto but I do not know whether that's necessary or desired in
-  this case.
-* Contributors: Chris Ye, Steven! Ragnarök
+* Enable bloom package build for ROS2 crystal release
 
 0.5.0 (2018-11-14)
 ------------------
-* update launch file
-  * delete object_analytics_launch package and create object_analytics_node/launch folder
-  * rename node name from composition to object_anaytics_node
-  * fix loading MovementNode to class typo
-  * update readme to simple launch example
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#49 <https://github.com/yechun1/ros2_object_analytics/issues/49>`_ from ahuizxc/merged_mo
-  Enable moving object feature
-* merged with moving object project
-* Merge pull request `#47 <https://github.com/yechun1/ros2_object_analytics/issues/47>`_ from ahuizxc/master
-  better display
-* remove message_filters used in rviz for better display and changed the default layout of rviz
-* Merge pull request `#45 <https://github.com/yechun1/ros2_object_analytics/issues/45>`_ from ahuizxc/master
-  fixed rviz cannot show localization marker
+* Enable dataset support in tracking module.
+* Add one regression tool to track tracking precision and perf
+* Enabled more tracking features such as KCF/TLD/BOOSTING/MEDIAN_FLOW
+* remove merger-node to simplify the code
 * remove message_filter used in rviz for better display
-* Merge pull request `#43 <https://github.com/yechun1/ros2_object_analytics/issues/43>`_ from intel/fix_build_issue
-  add semicolon after RCLCPP_INFO
-* add semicolon after RCLCPP_INFO
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#40 <https://github.com/yechun1/ros2_object_analytics/issues/40>`_ from intel/ament_test
-  Ament test
-* update copyright format to pass colcon test
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* use ament_lint_auto for ros2 code style check
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#36 <https://github.com/yechun1/ros2_object_analytics/issues/36>`_ from intel/message_filter
-  update message_filter and interface
-* update message_filter and interface
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Contributors: Chris Ye, ahuizxc
+* Upload demo screensot and video
+* Enable moving object feature
+* delete object_analytics_launch package and create launch file in object_analytics_node
 
-0.4.0 (2018-09-07)
+0.4.0 (2018-09-7)
 ------------------
-* update maintainer
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* fix c++ code style issue
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* add ament_cppcheck
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#29 <https://github.com/intel/ros2_object_analytics/issues/29>`_ from ahuizxc/multi-obj-in-rviz
-  support showing multi objects localization marks in RVIZ
-* deleted these two lines and changed the clear objects code
-* support showing multi objects localization marks in RVIZ
-* Merge pull request `#23 <https://github.com/intel/ros2_object_analytics/issues/23>`_ from intel/perf
-  Merge detected object in localization and tracking
-* Merge detected object in localization and tracking
-  Merged detected object_name and probability in localization and tracking object,
-  so that users could only subscribe localization or tracking, needn't sub detected object
-  and needn't do message fileter again.
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Revert "moving object rectangle with correct position"
-  ros2_movidius_ncs have fixed roi issue, revert the patch.
-  This reverts commit 17a1120a37905e2fe619225f89f0903e7fb90f97.
-* Merge pull request `#18 <https://github.com/intel/ros2_object_analytics/issues/18>`_ from intel/rviz_cpp
-  fix rviz line draw malposition issue
-* fix rviz line draw malposition issue
-  set marker.pos.position is not correct, the value should be zero, just remove it and it will use default zero value.
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* moving object rectangle with correct position
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#17 <https://github.com/intel/ros2_object_analytics/issues/17>`_ from intel/rviz_cpp
-  ported image_publisher work on ros2 rviz
-* optimize parameter to be passed by reference
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* reduce scope of variable
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* ported image_publisher work on ros2 rviz
-  enabled image_publisher on cpp and py, cpp pass test while py not work.
-  image publisher used to display rectangle of tracked object on image viewer.
-  this is full ros2 rviz support without ros1_bridge.
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Merge pull request `#15 <https://github.com/intel/ros2_object_analytics/issues/15>`_ from intel/rviz_cpp
-  Rviz cpp
-* Initialize object_analytics_rviz for ros2
-  rewrite marker_publisher with cpp from python.
-  subscibe detection/localization/tracking topic and publish box_3d_markers,
-  to display object analytics result on rviz.
-  Signed-off-by: Chris Ye <chris.ye@intel.com>
-* Contributors: Chris Ye, ahuizxc
+* fully support ros2 implenetation without ros1_bridge connunication
+* support object_analytics_rviz on ros2
+* splite pointcloud2 to xyz and rgb
+* restruct tracking and localization object message type
+* optimize localization segmentation implementation
+* seperate ncs launch interface
+* enable cppcheck and unittest
+* support ubuntu 18.04
 
-0.3.0 (2018-07-03)
+0.3.0 (2018-05-14)
 ------------------
-* create marker_publisher.cpp, subscribe detection/localization/tracking and publish 3d box to rviz markers
-* create image_publisher.cpp, subscribe detection/localization/tracking and publish 2d box to rviz image
+* Support tracking object in 2D dimensional space.
+* Support locating object in 3D dimisional space.
