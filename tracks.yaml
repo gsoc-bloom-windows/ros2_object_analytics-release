@@ -43,7 +43,7 @@ tracks:
     last_version: 0.5.4
     name: ros2_object_analytics
     patches: null
-    release_inc: '1'
+    release_inc: '2'
     release_repo_url: null
     release_tag: 0.5.4
     ros_distro: dashing
