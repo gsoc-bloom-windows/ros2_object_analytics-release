@@ -1,0 +1,12 @@
+Source: ros-dashing-object-analytics-node
+Section: misc
+Priority: extra
+Maintainer: Chris Ye <chris.ye@intel.com>
+Build-Depends: debhelper (>= 9.0.0), liblz4-dev, libpcl-dev, ros-dashing-ament-cmake, ros-dashing-ament-cmake-gtest, ros-dashing-ament-lint-auto, ros-dashing-ament-lint-common, ros-dashing-class-loader, ros-dashing-cv-bridge, ros-dashing-geometry-msgs, ros-dashing-message-filters, ros-dashing-object-analytics-msgs, ros-dashing-object-msgs, ros-dashing-pcl-conversions, ros-dashing-rclcpp, ros-dashing-rclcpp-components, ros-dashing-sensor-msgs, ros-dashing-ros-workspace
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-dashing-object-analytics-node
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, liblz4-dev, libpcl-apps1.8, libpcl-common1.8, libpcl-dev, libpcl-features1.8, libpcl-filters1.8, libpcl-io1.8, libpcl-kdtree1.8, libpcl-keypoints1.8, libpcl-ml1.8, libpcl-octree1.8, libpcl-outofcore1.8, libpcl-people1.8, libpcl-recognition1.8, libpcl-registration1.8, libpcl-sample-consensus1.8, libpcl-search1.8, libpcl-segmentation1.8, libpcl-stereo1.8, libpcl-surface1.8, libpcl-tracking1.8, libpcl-visualization1.8, ros-dashing-ament-index-python, ros-dashing-class-loader, ros-dashing-cv-bridge, ros-dashing-geometry-msgs, ros-dashing-message-filters, ros-dashing-object-analytics-msgs, ros-dashing-object-msgs, ros-dashing-pcl-conversions, ros-dashing-rclcpp, ros-dashing-sensor-msgs, ros-dashing-std-msgs, ros-dashing-ros-workspace
+Description: The object_analytics_node package
