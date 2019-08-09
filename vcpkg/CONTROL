@@ -1,0 +1,4 @@
+Source: ros-dashing-object-analytics-node
+Version: 0.5.4
+Description: The object_analytics_node package
+Build-Depends:
